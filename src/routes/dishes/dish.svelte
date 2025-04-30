@@ -49,7 +49,7 @@
     <p class="text-base font-medium text-gray-900 dark:text-white">
       {dish.name}
     </p>
-    <p class="text-sm text-gray-500 dark:text-gray-300">
+    <p class="text-sm text-gray-500 dark:text-gray-200">
       {FormatPriceDefault(dish.price)}
     </p>
   </div>
