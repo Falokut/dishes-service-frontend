@@ -34,6 +34,7 @@
 
     selectedCategory = newSelectedCategory;
     page = 1;
+    dishes = [];
     updateDishes();
   }
 

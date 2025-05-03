@@ -3,15 +3,16 @@
   import { goto } from "$app/navigation";
 
   import Dish from "./dish.svelte";
-  import DishesGrid from "$lib/components/dishes_grid.svelte";
-  import CategoriesList from "$lib/components/categories_list.svelte";
+  import DishesGrid from "../components/dishes_grid.svelte";
+  import CategoriesList from "..//components/categories_list.svelte";
   import { cartRepo } from "$lib/app/defaults";
-  import TgMainButton from "$lib/components/tg_main_button.svelte";
-  import TgBackButton from "$lib/components/tg_back_button.svelte";
+  import TgMainButton from "../components/tg_main_button.svelte";
+  import TgBackButton from "../components/tg_back_button.svelte";
 
   let dishesGrid: DishesGrid;
   let visible = $state(true);
   onMount(async () => {
+    cartRepo.loadCart();
     visible = cartRepo.get().size == 0;
   });
 </script>
@@ -23,13 +24,13 @@
   onclick={() => {
     goto("/cart");
   }}
-></TgMainButton>
+/>
 
 <TgBackButton
   onclick={() => {
     goto("/", { replaceState: true });
   }}
-></TgBackButton>
+/>
 
 <main class="dish">
   <CategoriesList

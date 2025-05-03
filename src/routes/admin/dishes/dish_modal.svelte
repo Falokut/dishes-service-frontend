@@ -1,29 +1,43 @@
 <script lang="ts">
   import { Modal, Button } from "flowbite-svelte";
   import { dishCategoryRepo, restaurantRepo } from "$lib/app/defaults";
-  import MultiSelectInput from "$lib/components/inputs/multi_select_input.svelte";
-  import TextInput from "$lib/components/inputs/text_input.svelte";
-  import ImageInput from "$lib/components/inputs/image_input.svelte";
-  import DishPreview from "$lib/components/dish_preview.svelte";
+  import MultiSelectInput from "../../components/inputs/multi_select_input.svelte";
+  import TextInput from "../../components/inputs/text_input.svelte";
+  import ImageInput from "../../components/inputs/image_input.svelte";
+  import DishPreview from "../../components/dish_preview.svelte";
   import { onMount } from "svelte";
   import { defaultInput, type ModalInput } from "./modal_input";
 
   let {
-    openModal = $bindable(false),
-    initInput = $bindable<ModalInput>(defaultInput),
     title = $bindable(""),
     onClose = $bindable(() => {}),
-    onSubmit: submitted = $bindable((input: ModalInput) => {}),
+    onSubmit = (input: ModalInput) => {},
     submitText = $bindable(""),
   } = $props();
 
+  let openModal = $state(false);
   let input = $state<ModalInput>(defaultInput);
   let dishPrice = $state("");
-
   const dishesCategoriesMap = new Map<string, number>();
 
-  let options: any[] = $state([]);
-  let restaurants: any[] = $state([]);
+  export const OpenModal = (initialInput: ModalInput | null) => {
+    if (!initialInput) {
+      input = defaultInput;
+      return;
+    }
+    input = initialInput;
+    dishPrice = (input.price / 100).toFixed(2);
+
+    input.categoriesIds = input.categoriesNames
+      .map((name) => dishesCategoriesMap.get(name))
+      .filter((id): id is number => id !== undefined);
+
+    const restaurant = restaurants.find((r) => r.name === input.restaurantName);
+    if (restaurant) {
+      input.restaurantId = restaurant.id;
+    }
+    openModal = true;
+  };
 
   const loadDishesCategories = async () => {
     const categories = await dishCategoryRepo.getAll();
@@ -42,36 +56,27 @@
     restaurants = await restaurantRepo.getAll();
   });
 
-  let prevInitInput: ModalInput | null = null;
+  let options: any[] = $state([]);
+  let restaurants: any[] = $state([]);
+
+  const isInputValid = (input: ModalInput): boolean => {
+    return (
+      input.name.length > 0 &&
+      input.url.length > 0 &&
+      input.price > 80 &&
+      input.restaurantId > 0
+    );
+  };
+
+  let cantSubmit = $state(false);
   $effect(() => {
-    if (
-      !initInput ||
-      JSON.stringify(initInput) === JSON.stringify(prevInitInput)
-    ) {
-      return;
-    }
-
-    prevInitInput = { ...initInput };
-
-    input = { ...initInput };
-    dishPrice = (input.price / 100).toFixed(2);
-
-    input.categoriesIds = input.categoriesNames
-      .map((name) => dishesCategoriesMap.get(name))
-      .filter((id): id is number => id !== undefined);
-
-    const restaurant = restaurants.find((r) => r.name === input.restaurantName);
-    if (restaurant) {
-      input.restaurantId = restaurant.id;
-    }
+    cantSubmit = !isInputValid(input);
   });
-
-  const isInputValid = (input: any) =>
-    input.name && input.url && input.price > 80 && input.restaurantId > 0;
 
   const submitInput = async () => {
     if (!isInputValid(input)) return;
-    submitted(input);
+    openModal = false;
+    onSubmit(input);
   };
 </script>
 
@@ -83,11 +88,11 @@
   class="w-full h-screen overflow-y-scroll"
 >
   <div class="space-y-4 text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl">
-    <TextInput bind:value={input.name} label="Название:" />
+    <TextInput value={input.name} label="Название:" />
     <TextInput
       bind:value={dishPrice}
       label="Цена:"
-      onChange={() => {
+      onchange={() => {
         input.price = Math.ceil(Number(dishPrice) * 100);
       }}
     />
@@ -97,18 +102,19 @@
       bind:file={input.image}
       uploadLabel="Выбрать файл"
     />
-    <div class="flex mt-4 text-gray-700 dark:text-gray-300">
+
+    <div
+      class="flex items-center flex-row flex-nowrap mt-4 text-gray-700 dark:text-gray-300"
+    >
       <div class="w-32 font-bold">Ресторан:</div>
-      <div class="flex-1">
-        <select
-          bind:value={input.restaurantId}
-          class="w-full p-2 mt-1 border bg-gray-300 dark:bg-gray-800 border-gray-600 rounded-lg"
-        >
-          {#each restaurants as restaurant}
-            <option value={restaurant.id}>{restaurant.name}</option>
-          {/each}
-        </select>
-      </div>
+      <select
+        bind:value={input.restaurantId}
+        class="w-full p-2 mt-1 border bg-gray-300 dark:bg-gray-800 border-gray-600 rounded-lg"
+      >
+        {#each restaurants as restaurant}
+          <option value={restaurant.id}>{restaurant.name}</option>
+        {/each}
+      </select>
     </div>
 
     <MultiSelectInput
@@ -117,18 +123,18 @@
       bind:selected={input.categoriesIds}
     />
 
-    {#if isInputValid(input)}
-      <div class="pt-6">
+    <div class="mt-4 flex justify-center gap-4">
+      <Button color="light" onclick={() => (openModal = false)}>Отмена</Button>
+      <Button color="green" onclick={submitInput} bind:disabled={cantSubmit}>
+        {submitText}
+      </Button>
+    </div>
+
+    {#if !cantSubmit}
+      <div class="pt-6 text-gray-800 dark:text-gray-100">
         <h3 class="text-center text-xl font-semibold mb-2">Предосмотр</h3>
         <DishPreview bind:dish={input} />
       </div>
     {/if}
-
-    <div class="mt-4 flex justify-center gap-4">
-      <Button color="light" on:click={() => (openModal = false)}>Отмена</Button>
-      <Button color="green" on:click={submitInput}>
-        {submitText}
-      </Button>
-    </div>
   </div>
 </Modal>

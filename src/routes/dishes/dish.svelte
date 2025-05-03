@@ -1,14 +1,14 @@
 <script lang="ts">
   import { cartRepo } from "$lib/app/defaults";
-  import PreviewImage from "$lib/components/preview_image.svelte";
+  import PreviewImage from "../components/preview_image.svelte";
   import type { Dish } from "$lib/types/dish";
   import { FormatPriceDefault } from "$lib/utils/format_price";
   import { Button } from "flowbite-svelte";
   import { onMount } from "svelte";
 
-  export let dish: Dish;
-  let count = 0;
-  let showIncrDecrButtons = false;
+  let { dish = $bindable<Dish>() } = $props();
+  let count = $state(0);
+  let showIncrDecrButtons = $state(false);
 
   function incrDishCount() {
     count = Math.min(count + 1, 40);

@@ -3,8 +3,8 @@
   import Row from "./row.svelte";
   import { restaurantRepo } from "$lib/app/defaults";
   import type { Restaurant } from "$lib/types/restaurant";
-  import TgBackButton from "$lib/components/tg_back_button.svelte";
-  import TgMainButton from "$lib/components/tg_main_button.svelte";
+  import TgBackButton from "../../components/tg_back_button.svelte";
+  import TgMainButton from "../../components/tg_main_button.svelte";
   import { Button, Modal } from "flowbite-svelte";
 
   let restaurants: Restaurant[] = $state([]);

@@ -14,8 +14,7 @@ export class CartRepository {
     }
 
     public getDishCount(dishId: number): number {
-        const count = this.cart.get(dishId.toString());
-        return count ?? 0;
+        return this.cart.get(dishId.toString()) ?? 0;
     }
 
     public clear(): void {

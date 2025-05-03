@@ -1,10 +1,10 @@
 <script lang="ts">
   import { onMount } from "svelte";
-  import DishCategory from "./dish_category.svelte";
+  import Row from "./row.svelte";
   import { dishCategoryRepo } from "$lib/app/defaults";
-  import TgBackButton from "$lib/components/tg_back_button.svelte";
+  import TgBackButton from "../../components/tg_back_button.svelte";
   import { Button, Modal } from "flowbite-svelte";
-  import TgMainButton from "$lib/components/tg_main_button.svelte";
+  import TgMainButton from "../../components/tg_main_button.svelte";
 
   let categories: any[] = $state([]);
 
@@ -49,7 +49,7 @@
     class="flex flex-col gap-4 bg-white dark:bg-gray-700 p-4 rounded-lg shadow-md"
   >
     {#each categories as category (category.id)}
-      <DishCategory {category} {remove} />
+      <Row {category} {remove} />
     {/each}
   </div>
 </main>

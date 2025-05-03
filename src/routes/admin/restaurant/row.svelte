@@ -1,7 +1,7 @@
 <script lang="ts">
   import { restaurantRepo } from "$lib/app/defaults";
-  import DeleteModal from "$lib/components/delete_modal.svelte";
-  import TextInput from "$lib/components/inputs/text_input.svelte";
+  import DeleteModal from "../../components/delete_modal.svelte";
+  import TextInput from "../../components/inputs/text_input.svelte";
   import type { Restaurant } from "$lib/types/restaurant";
 
   let {
@@ -22,9 +22,11 @@
 </script>
 
 <section
-  class="flex items-center justify-between gap-2 p-2 rounded-md bg-gray-100 dark:bg-gray-700"
+  class="flex items-center justify-between gap-2 p-2 rounded-md bg-gray-100 dark:bg-gray-700 w-full"
 >
-  <TextInput bind:value={restaurant.name} />
+  <div class="max-w-2/3">
+    <TextInput value={restaurant.name} />
+  </div>
   <div class="flex gap-2">
     <button
       class="bg-green-600 hover:bg-green-700 text-white px-3 py-1 rounded-md"

@@ -35,7 +35,7 @@
     {label}
   </div>
   <div class="flex justify-end w-full">
-    <Button color="primary" class="w-1/2" on:click={openFileInput}>
+    <Button color="primary" class="w-1/2" onclick={openFileInput}>
       {uploadLabel}
     </Button>
   </div>

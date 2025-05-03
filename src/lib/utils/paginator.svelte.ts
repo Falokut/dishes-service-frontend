@@ -48,7 +48,11 @@ export class Paginator<T> {
     this.isFetching = false;
 
     this.lastFetchFull = items.length == itemsPerPage;
-    this.data.splice(offset, itemsPerPage, ...items);
+    if (page * itemsPerPage < this.data.length) {
+      this.data = [...items]
+    } else {
+      this.data.splice(offset, itemsPerPage, ...items);
+    }
   }
 
   public totalItems = $derived(this.data.length);

@@ -1,7 +1,7 @@
 <script lang="ts">
   import { dishRepo } from "$lib/app/defaults";
-  import DeleteModal from "$lib/components/delete_modal.svelte";
-  import PreviewImage from "$lib/components/preview_image.svelte";
+  import DeleteModal from "../../components/delete_modal.svelte";
+  import PreviewImage from "../../components/preview_image.svelte";
   import type { Dish } from "$lib/types/dish";
   import { FormatPriceDefault } from "$lib/utils/format_price";
   import { Button } from "flowbite-svelte";

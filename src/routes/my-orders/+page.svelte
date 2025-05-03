@@ -1,6 +1,6 @@
 <script lang="ts">
   import { orderRepo } from "$lib/app/defaults";
-  import TgBackButton from "$lib/components/tg_back_button.svelte";
+  import TgBackButton from "../components/tg_back_button.svelte";
   import type { UserOrder } from "$lib/types/user_order";
   import { Paginator } from "$lib/utils/paginator.svelte";
   import { Button } from "flowbite-svelte";

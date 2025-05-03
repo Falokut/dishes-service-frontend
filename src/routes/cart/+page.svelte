@@ -3,10 +3,10 @@
   import CartItem from "./cart_item.svelte";
   import { goto } from "$app/navigation";
   import { FormatPriceDefault } from "$lib/utils/format_price";
-  import TextAreaInput from "$lib/components/inputs/text_area_input.svelte";
+  import TextAreaInput from "../components/inputs/text_area_input.svelte";
   import { cartRepo, dishRepo, orderRepo } from "$lib/app/defaults";
-  import TgBackButton from "$lib/components/tg_back_button.svelte";
-  import TgMainButton from "$lib/components/tg_main_button.svelte";
+  import TgBackButton from "../components/tg_back_button.svelte";
+  import TgMainButton from "../components/tg_main_button.svelte";
 
   let dishes: any[] = $state([]);
   let total = $state(0);

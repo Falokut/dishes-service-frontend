@@ -1,29 +1,28 @@
 <script lang="ts">
   import Dish from "./dish.svelte";
-  import TgBackButton from "$lib/components/tg_back_button.svelte";
-  import CategoriesList from "$lib/components/categories_list.svelte";
-  import DishesGrid from "$lib/components/dishes_grid.svelte";
+  import TgBackButton from "../../components/tg_back_button.svelte";
+  import CategoriesList from "../../components/categories_list.svelte";
+  import DishesGrid from "../../components/dishes_grid.svelte";
   import { Section } from "flowbite-svelte-blocks";
-  import TgMainButton from "$lib/components/tg_main_button.svelte";
+  import TgMainButton from "../../components/tg_main_button.svelte";
   import DishModal from "./dish_modal.svelte";
   import { ToBase64 } from "$lib/utils/base64";
   import { dishRepo } from "$lib/app/defaults";
   import type { EditDishRequest } from "$lib/types/edit_dish";
-  import { defaultInput, type ModalInput } from "./modal_input";
+  import type { ModalInput } from "./modal_input";
   import type { Dish as DishDto } from "$lib/types/dish";
 
   let dishesGrid: DishesGrid;
-  let openAddModal = $state(false);
-  let openEditModal = $state(false);
   let selectedDish = $state<DishDto>();
 
-  let editInitInput = $state<ModalInput>(defaultInput);
+  let addModal: DishModal;
+  let editModal: DishModal;
 
   const onEvent = (d: DishDto, event: string) => {
     selectedDish = d;
     switch (event) {
       case "edit":
-        editInitInput = {
+        const editInitInput = {
           name: selectedDish.name,
           categoriesIds: [],
           categoriesNames: selectedDish.categories,
@@ -33,7 +32,7 @@
           restaurantId: 0,
           restaurantName: selectedDish.restaurantName,
         };
-        openEditModal = true;
+        editModal.OpenModal(editInitInput);
         mainButtonVisible = false;
         break;
     }
@@ -46,7 +45,7 @@
 <TgMainButton
   label="Добавить блюдо"
   onclick={() => {
-    openAddModal = true;
+    addModal.OpenModal(null);
     mainButtonVisible = false;
   }}
   bind:visible={mainButtonVisible}
@@ -67,7 +66,7 @@
 </Section>
 
 <DishModal
-  bind:openModal={openAddModal}
+  bind:this={addModal}
   submitText="Добавить"
   title="Добавить блюдо"
   onSubmit={async (input: ModalInput) => {
@@ -89,14 +88,12 @@
     if (success) {
       dishesGrid.addedDish();
     }
-    openAddModal = false;
     mainButtonVisible = true;
   }}
-></DishModal>
+/>
 
 <DishModal
-  bind:openModal={openEditModal}
-  bind:initInput={editInitInput}
+  bind:this={editModal}
   submitText="Обновить"
   title="Редактировать блюдо"
   onSubmit={async (input: ModalInput) => {
@@ -117,7 +114,6 @@
 
     const success = await dishRepo.edit(req);
     if (success) dishesGrid.updatedDish(selectedDish.id);
-    openEditModal = false;
     mainButtonVisible = true;
   }}
-></DishModal>
+/>
