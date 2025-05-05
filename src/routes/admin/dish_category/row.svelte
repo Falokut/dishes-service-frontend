@@ -29,7 +29,7 @@
   class="flex items-center justify-between gap-2 p-2 rounded-md bg-gray-100 dark:bg-gray-700 w-full"
 >
   <div class="max-w-2/3">
-    <TextInput value={category.name} />
+    <TextInput bind:value={category.name} />
   </div>
   <div class="flex gap-2">
     <button

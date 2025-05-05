@@ -88,7 +88,7 @@
   class="w-full h-screen overflow-y-scroll"
 >
   <div class="space-y-4 text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl">
-    <TextInput value={input.name} label="Название:" />
+    <TextInput bind:value={input.name} label="Название:" />
     <TextInput
       bind:value={dishPrice}
       label="Цена:"
