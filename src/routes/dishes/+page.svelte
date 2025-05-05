@@ -11,9 +11,11 @@
 
   let dishesGrid: DishesGrid;
   let visible = $state(true);
-  onMount(async () => {
+  onMount(() => {
     cartRepo.loadCart();
-    visible = cartRepo.get().size == 0;
+  });
+  $effect(() => {
+    visible = cartRepo.get().size > 0;
   });
 </script>
 

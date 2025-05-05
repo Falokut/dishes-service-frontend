@@ -19,6 +19,11 @@
     await restaurantRepo.delete(restaurant.id);
     remove(restaurant.id);
   }
+
+  let deleteText = $state("");
+  $effect(() => {
+    deleteText = `Вы уверены, что хотите удалить ресторан "${restaurant.name}"?`;
+  });
 </script>
 
 <section
@@ -44,7 +49,7 @@
 </section>
 
 <DeleteModal
-  DeleteText={`Вы уверены, что хотите удалить ресторан "${restaurant.name}"?`}
+  bind:deleteText
   bind:openModal
   HandleDelete={deleteRestaurant}
   HandleCancel={() => {}}

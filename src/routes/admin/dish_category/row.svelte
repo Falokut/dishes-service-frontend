@@ -19,6 +19,10 @@
   }
 
   let openModal = $state(false);
+  let deleteText = $state("");
+  $effect(() => {
+    deleteText = `Вы уверены, что хотите удалить категорию "${category.name}"?`;
+  });
 </script>
 
 <section
@@ -44,7 +48,7 @@
 </section>
 
 <DeleteModal
-  DeleteText={`Вы уверены, что хотите удалить категорию "${category.name}"?`}
+  bind:deleteText
   bind:openModal
   HandleDelete={deleteCategory}
   HandleCancel={() => {}}

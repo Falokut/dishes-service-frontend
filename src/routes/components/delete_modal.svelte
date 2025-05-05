@@ -11,7 +11,7 @@
     openModal = $bindable(false),
     HandleDelete = handleDelete,
     HandleCancel = handleCancel,
-    DeleteText = $bindable(""),
+    deleteText = $bindable(""),
   } = $props();
 </script>
 
@@ -35,7 +35,7 @@
     /></svg
   >
   <p class="mb-4 text-gray-500 dark:text-gray-300 text-center">
-    {DeleteText}
+    {deleteText}
   </p>
   <div class="flex justify-center items-center space-x-4">
     <Button id="cancel-delete-button" color="light" on:click={HandleCancel}

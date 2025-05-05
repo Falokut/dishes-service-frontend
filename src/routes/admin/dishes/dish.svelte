@@ -18,6 +18,11 @@
     await dishRepo.delete(dish.id);
     onRemove(dish.id);
   };
+
+  let deleteText = $state("");
+  $effect(() => {
+    deleteText = `Вы уверены, что хотите удалить блюдо "${dish.name}"?`;
+  });
 </script>
 
 <div
@@ -54,7 +59,7 @@
 </div>
 
 <DeleteModal
-  DeleteText={`Вы уверены, что хотите удалить ${dish.name} блюдо?`}
+  bind:deleteText
   bind:openModal={openDeleteModal}
   HandleDelete={deleteDish}
   HandleCancel={() => {}}
