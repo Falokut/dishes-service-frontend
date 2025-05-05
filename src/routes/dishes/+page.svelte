@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { onMount } from "svelte";
+  import { onDestroy, onMount } from "svelte";
   import { goto } from "$app/navigation";
 
   import Dish from "./dish.svelte";
@@ -11,11 +11,16 @@
 
   let dishesGrid: DishesGrid;
   let visible = $state(true);
+  let unsubscribe = () => {};
   onMount(() => {
+    unsubscribe = cartRepo.onChange((cart: Map<string, number>) => {
+      visible = cart.size > 0;
+    });
     cartRepo.loadCart();
   });
-  $effect(() => {
-    visible = cartRepo.get().size > 0;
+
+  onDestroy(() => {
+    unsubscribe();
   });
 </script>
 
