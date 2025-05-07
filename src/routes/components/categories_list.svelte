@@ -9,8 +9,12 @@
   let categories: DishCategory[] = $state([]);
   let selectedCategory = $state(-1);
 
-  onMount(async () => {
+  export const FetchDishCategories = async () => {
     categories = await dishCategoryRepo.get();
+  };
+
+  onMount(async () => {
+    await FetchDishCategories();
   });
 
   function selectCategory(categoryId: number) {

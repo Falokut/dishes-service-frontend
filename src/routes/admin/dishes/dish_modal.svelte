@@ -23,6 +23,7 @@
   export const OpenModal = (initialInput: ModalInput | null) => {
     if (!initialInput) {
       input = defaultInput;
+      openModal = true;
       return;
     }
     input = initialInput;

@@ -14,6 +14,7 @@
 
   let dishesGrid: DishesGrid;
   let selectedDish = $state<DishDto>();
+  let categoriesList: CategoriesList;
 
   let addModal: DishModal;
   let editModal: DishModal;
@@ -53,6 +54,7 @@
 
 <Section name="content">
   <CategoriesList
+    bind:this={categoriesList}
     onCategoryChanged={(s: number) => {
       dishesGrid.selectedCategoryUpdated(s);
     }}
@@ -87,6 +89,7 @@
     const success = await dishRepo.add(req);
     if (success) {
       dishesGrid.addedDish();
+      categoriesList.FetchDishCategories();
     }
     mainButtonVisible = true;
   }}
@@ -113,7 +116,10 @@
     }
 
     const success = await dishRepo.edit(req);
-    if (success) dishesGrid.updatedDish(selectedDish.id);
+    if (success) {
+      dishesGrid.updatedDish(selectedDish.id);
+      categoriesList.FetchDishCategories();
+    }
     mainButtonVisible = true;
   }}
 />
