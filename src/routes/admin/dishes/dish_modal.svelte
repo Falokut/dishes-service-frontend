@@ -12,6 +12,7 @@
     title = $bindable(""),
     onClose = $bindable(() => {}),
     onSubmit = (input: ModalInput) => {},
+    onCancel = () => {},
     submitText = $bindable(""),
   } = $props();
 
@@ -79,6 +80,11 @@
     openModal = false;
     onSubmit(input);
   };
+
+  const submitCancel = () => {
+    openModal = false;
+    onCancel();
+  };
 </script>
 
 <Modal
@@ -125,7 +131,7 @@
     />
 
     <div class="mt-4 flex justify-center gap-4">
-      <Button color="light" onclick={() => (openModal = false)}>Отмена</Button>
+      <Button color="light" onclick={submitCancel}>Отмена</Button>
       <Button color="green" onclick={submitInput} bind:disabled={cantSubmit}>
         {submitText}
       </Button>

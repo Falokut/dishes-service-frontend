@@ -40,6 +40,10 @@
   };
 
   let mainButtonVisible = $state(true);
+
+  const onCancel = () => {
+    mainButtonVisible = true;
+  };
 </script>
 
 <TgBackButton />
@@ -71,6 +75,7 @@
   bind:this={addModal}
   submitText="Добавить"
   title="Добавить блюдо"
+  {onCancel}
   onSubmit={async (input: ModalInput) => {
     if (!input) return;
 
@@ -99,6 +104,7 @@
   bind:this={editModal}
   submitText="Обновить"
   title="Редактировать блюдо"
+  {onCancel}
   onSubmit={async (input: ModalInput) => {
     if (!selectedDish || !input) return;
 
