@@ -18,6 +18,7 @@
 <Modal
   title=""
   bind:open={openModal}
+  oncancel={HandleCancel}
   autoclose
   size="sm"
   class="w-full"

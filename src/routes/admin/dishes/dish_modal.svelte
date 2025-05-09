@@ -90,6 +90,7 @@
 <Modal
   bind:title
   bind:open={openModal}
+  oncancel={submitCancel}
   size="lg"
   backdropClass="fixed inset-0 z-40 bg-gray-900/80"
   class="w-full h-screen overflow-y-scroll"
