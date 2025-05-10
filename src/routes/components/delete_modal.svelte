@@ -18,7 +18,7 @@
 <Modal
   title=""
   bind:open={openModal}
-  oncancel={HandleCancel}
+  dismissable={false}
   autoclose
   size="sm"
   class="w-full"
@@ -39,10 +39,10 @@
     {deleteText}
   </p>
   <div class="flex justify-center items-center space-x-4">
-    <Button id="cancel-delete-button" color="light" on:click={HandleCancel}
+    <Button id="cancel-delete-button" color="light" onclick={HandleCancel}
       >Нет, отменить</Button
     >
-    <Button id="accept-deletion-button" color="red" on:click={HandleDelete}
+    <Button id="accept-deletion-button" color="red" onclick={HandleDelete}
       >Да, я уверен</Button
     >
   </div>
