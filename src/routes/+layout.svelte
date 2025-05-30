@@ -3,6 +3,8 @@
   import "../app.css";
   import { onDestroy, onMount } from "svelte";
   import { browser } from "$app/environment";
+  import TgSettingsButton from "./components/tg_settings_button.svelte";
+  import { authRepo } from "$lib/app/defaults";
 
   let { children } = $props();
 
@@ -32,6 +34,16 @@
   onDestroy(() => {
     clean();
   });
+
+  const reloadSession = () => {
+    authRepo.clean()
+    location.reload();
+  };
 </script>
+
+<TgSettingsButton
+  visible={true}
+  actions={[{ name: "Перезагрузить сессию", onclick: reloadSession }]}
+/>
 
 {@render children()}

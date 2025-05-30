@@ -46,15 +46,16 @@ export async function POST({ cookies }) {
         }
 
         const res = await defaultClient.request()
-            .setEndpoint('/has_admin_privileges')
+            .setEndpoint('/auth/user_role')
             .setHeaders(defaultClient.userBearerAuthHeader(accessToken))
             .send()
         if (!res.ok) {
             return json({ error: 'Failed to fetch role' }, { ok: false, status: res.status });
         }
-        const hasPrivilegesResp = await res.json()
 
-        const roleName = hasPrivilegesResp.hasAdminPrivileges ? "admin" : "user";
+        const roleResp = await res.json()
+        const roleName = roleResp.roleName;
+
         return json({ roleName, pages: pagesByRole[roleName] });
     } catch (error) {
         return json({ error: 'Server error', details: error.message }, { status: 500 });

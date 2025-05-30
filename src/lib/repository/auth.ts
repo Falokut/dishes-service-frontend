@@ -18,6 +18,15 @@ const authByTelegramEndpoint = "/auth/login_by_telegram";
 export class AuthRepository {
     constructor(private cli: Client) { }
 
+    public clean() {
+        if (!browser) return;
+
+        localStorage.removeItem(accessTokenKey);
+        localStorage.removeItem(accessTokenExpiresAtKey);
+        localStorage.removeItem(refreshTokenKey);
+        localStorage.removeItem(refreshTokenExpiresAtKey);
+    }
+
     public async getAccessToken(): Promise<string> {
         if (!browser) return "";
 
