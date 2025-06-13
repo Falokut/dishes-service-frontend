@@ -3,16 +3,16 @@
   import DeleteModal from "../../components/delete_modal.svelte";
   import TextInput from "../../components/inputs/text_input.svelte";
   import type { Restaurant } from "$lib/types/restaurant";
+  import ApproveModal from "../../components/approve_modal.svelte";
 
   let {
     restaurant = $bindable<Restaurant>(),
     remove = $bindable((id: number) => {}),
   } = $props();
 
-  let openModal = $state(false);
-
   async function updateRestaurant() {
-    await restaurantRepo.rename(restaurant.id, restaurant.name);
+    await restaurantRepo.rename(restaurant.id, inputRestaurantName);
+    restaurant.name = inputRestaurantName;
   }
 
   async function deleteRestaurant() {
@@ -20,9 +20,15 @@
     remove(restaurant.id);
   }
 
+  let openDeleteModal = $state(false);
   let deleteText = $state("");
+
+  let openApproveModal = $state(false);
+  let approveText = $state("");
+  let inputRestaurantName = $state(restaurant.name);
   $effect(() => {
     deleteText = `Вы уверены, что хотите удалить ресторан "${restaurant.name}"?`;
+    approveText= `Вы уверены, что хотите поменять название ресторана "${restaurant.name}" на "${inputRestaurantName}"?`;
   });
 </script>
 
@@ -30,18 +36,18 @@
   class="flex items-center justify-between gap-2 p-2 rounded-md bg-gray-100 dark:bg-gray-700 w-full"
 >
   <div class="max-w-2/3">
-    <TextInput bind:value={restaurant.name} />
+    <TextInput bind:value={inputRestaurantName} />
   </div>
   <div class="flex gap-2">
     <button
       class="bg-green-600 hover:bg-green-700 text-white px-3 py-1 rounded-md"
-      onclick={updateRestaurant}
+      onclick={() => (openApproveModal = true)}
     >
       ✓
     </button>
     <button
       class="bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded-md"
-      onclick={() => (openModal = true)}
+      onclick={() => (openDeleteModal = true)}
     >
       ✕
     </button>
@@ -50,7 +56,12 @@
 
 <DeleteModal
   bind:deleteText
-  bind:openModal
+  bind:openModal={openDeleteModal}
   HandleDelete={deleteRestaurant}
-  HandleCancel={() => {}}
+/>
+
+<ApproveModal
+  bind:approveText
+  bind:openModal={openApproveModal}
+  HandleApprove={updateRestaurant}
 />

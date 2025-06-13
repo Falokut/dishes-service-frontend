@@ -42,7 +42,7 @@ export class DishCategoryRepository {
             .then(response => response.json())
     }
 
-    public async rename(newName: string, categoryId: number): Promise<boolean> {
+    public async rename(categoryId: number, newName: string): Promise<boolean> {
         return await this.cli.request()
             .setMethod("POST")
             .setEndpoint(dishesCategoriesEndpoint + '/' + categoryId)
