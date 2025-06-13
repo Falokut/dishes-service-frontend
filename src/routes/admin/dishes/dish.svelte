@@ -25,10 +25,8 @@
   });
 </script>
 
-<div
-  class="bg-gray-100 dark:bg-gray-700 shadow rounded-lg p-4 m-2 flex flex-col items-center"
->
-  <div class="w-full h-fit mb-4 relative">
+<div class="bg-gray-100 dark:bg-gray-700 shadow rounded-lg p-4 m-2 flex flex-col aspect-[3/4]">
+  <div class="w-full relative aspect-square mb-4">
     <PreviewImage
       bind:url={dish.url}
       bind:alt={dish.name}
@@ -36,25 +34,20 @@
     />
   </div>
 
-  <div
-    class="text-center mb-2 text-base font-medium text-gray-800 dark:text-gray-100"
-  >
-    <p>{dish.name}</p>
-    <p>{FormatPriceDefault(dish.price)}</p>
-  </div>
+  <div class="flex flex-col flex-1 justify-between">
+    <div class="text-center mb-2 text-base font-medium text-gray-800 dark:text-gray-100">
+      <p>{dish.name}</p>
+      <p class="text-sm text-gray-600 dark:text-gray-300">{FormatPriceDefault(dish.price)}</p>
+    </div>
 
-  <div class="flex gap-1 flex-wrap flex-col">
-    <Button color="red" onclick={() => (openDeleteModal = true)}>
-      Удалить
-    </Button>
-    <Button
-      color="primary"
-      onclick={() => {
-        onEvent(dish, "edit");
-      }}
-    >
-      Редактировать
-    </Button>
+    <div class="flex flex-col gap-2">
+      <Button color="red" onclick={() => (openDeleteModal = true)}>
+        Удалить
+      </Button>
+      <Button color="primary" onclick={() => onEvent(dish, "edit")}>
+        Редактировать
+      </Button>
+    </div>
   </div>
 </div>
 

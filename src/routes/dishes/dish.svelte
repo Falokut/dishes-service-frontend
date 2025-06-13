@@ -30,7 +30,7 @@
 <div
   class="bg-gray-100 dark:bg-gray-700 shadow rounded-lg p-4 m-2 flex flex-col items-center"
 >
-  <div class="w-full h-fit mb-4 relative">
+  <div class="w-full relative aspect-square mb-4">
     <PreviewImage
       bind:url={dish.url}
       bind:alt={dish.name}
@@ -45,43 +45,45 @@
     {/if}
   </div>
 
-  <div class="mt-4 text-center">
-    <p class="text-base font-medium text-gray-900 dark:text-white">
-      {dish.name}
-    </p>
-    <p class="text-sm text-gray-500 dark:text-gray-200">
-      {FormatPriceDefault(dish.price)}
-    </p>
-  </div>
+  <div class="flex flex-col flex-1 justify-between">
+    <div class="text-center">
+      <p class="text-base font-medium text-gray-900 dark:text-white">
+        {dish.name}
+      </p>
+      <p class="text-sm text-gray-500 dark:text-gray-200">
+        {FormatPriceDefault(dish.price)}
+      </p>
+    </div>
 
-  <div class="mt-4 flex justify-center gap-2 w-full">
-    {#if showIncrDecrButtons}
-      <Button
-        color="green"
-        class="font-bold py-2 px-4 rounded w-1/2"
-        onclick={incrDishCount}
-      >
-        +
-      </Button>
-      <Button
-        color="red"
-        class="font-bold py-2 px-4 rounded w-1/2"
-        onclick={decrDishCount}
-      >
-        -
-      </Button>
-    {:else}
-      <Button
-        color="primary"
-        class="w-full"
-        onclick={() => {
-          count = 1;
-          showIncrDecrButtons = true;
-          cartRepo.setDishCount(dish.id, count);
-        }}
-      >
-        Добавить
-      </Button>
-    {/if}
+    <div class="mt-4 flex justify-center gap-2 w-full">
+      {#if showIncrDecrButtons}
+        <Button
+          color="green"
+          class="font-bold py-2 px-4 rounded w-1/2"
+          onclick={incrDishCount}
+        >
+          +
+        </Button>
+        <Button
+          color="red"
+          class="font-bold py-2 px-4 rounded w-1/2"
+          onclick={decrDishCount}
+        >
+          -
+        </Button>
+      {:else}
+        <Button
+          color="primary"
+          class="w-full"
+          onclick={() => {
+            count = 1;
+            showIncrDecrButtons = true;
+            cartRepo.setDishCount(dish.id, count);
+          }}
+        >
+          Добавить
+        </Button>
+      {/if}
+    </div>
   </div>
 </div>

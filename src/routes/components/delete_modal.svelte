@@ -1,11 +1,7 @@
 <script lang="ts">
   import { Button, Modal } from "flowbite-svelte";
-  const handleCancel = () => {
-    alert("Clicked cancel");
-  };
-  const handleDelete = () => {
-    alert("Clicked delete");
-  };
+  const handleCancel = () => {};
+  const handleDelete = () => {};
 
   let {
     openModal = $bindable(false),
